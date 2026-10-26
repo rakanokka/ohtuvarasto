@@ -43,8 +43,7 @@ class TestVarasto(unittest.TestCase):
 
     def test_negative_values_corrected_in_constructor(self):
         varasto = Varasto(-1.0, -1.0)
-        # Break test here
-        self.assertAlmostEqual(varasto.saldo, 1.0)
+        self.assertAlmostEqual(varasto.saldo, 0.0)
         self.assertAlmostEqual(varasto.tilavuus, 0.0)
 
     def test_clamp_to_volume_in_constructor(self):
