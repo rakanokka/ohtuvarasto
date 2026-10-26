@@ -1,1 +1,0 @@
-Initial content in testdir2/testfile
