@@ -1,6 +1,6 @@
 import unittest
 from varasto import Varasto
-
+import varasto
 
 class TestVarasto(unittest.TestCase):
     def setUp(self):
@@ -38,3 +38,40 @@ class TestVarasto(unittest.TestCase):
 
         # varastossa pitäisi olla tilaa 10 - 8 + 2 eli 4
         self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 4)
+
+    # My tests 
+
+    def test_negative_values_corrected_in_constructor(self):
+        varasto = Varasto(-1.0, -1.0)
+        self.assertAlmostEqual(varasto.saldo, 0.0)
+        self.assertAlmostEqual(varasto.tilavuus, 0.0)
+
+    def test_clamp_to_volume_in_constructor(self):
+        varasto = Varasto(0.5, 1.0)
+        self.assertAlmostEqual(varasto.saldo, 0.5)
+        self.assertAlmostEqual(varasto.tilavuus, 0.5)
+
+    def test_ignore_negative_values_on_add(self):
+        current_saldo = self.varasto.saldo
+        self.varasto.add(-1.0)
+        self.assertAlmostEqual(self.varasto.saldo, current_saldo)
+
+    def test_clamp_to_volume_on_add(self):
+        current_volume = self.varasto.tilavuus
+        self.varasto.add(100.0)
+        self.assertAlmostEqual(self.varasto.saldo, current_volume)
+
+    def test_return_zero_for_negative_values_on_get(self):
+        actual_value = self.varasto.get(-1.0)
+        self.assertAlmostEqual(actual_value, 0.0)
+
+    def test_clamp_to_saldo_on_get(self):
+        expected_value = self.varasto.saldo
+        actual_value = self.varasto.get(100.0)
+        self.assertAlmostEqual(actual_value, expected_value)
+        self.assertAlmostEqual(self.varasto.saldo, 0.0)
+    
+    def test_string_output(self):
+        actual_str = str(self.varasto)
+        expected_str = "saldo = 0.0, vielä tilaa 10.0"
+        self.assertEqual(actual_str, expected_str)
