@@ -39,7 +39,7 @@ class TestVarasto(unittest.TestCase):
         # varastossa pitäisi olla tilaa 10 - 8 + 2 eli 4
         self.assertAlmostEqual(self.varasto.paljonko_mahtuu(), 4)
 
-    # My tests 
+    # My unit tests 
 
     def test_negative_values_corrected_in_constructor(self):
         varasto = Varasto(-1.0, -1.0)
